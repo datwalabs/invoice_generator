@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Invoice Generator</h1>
+        
+        <div class="form-container">
+            <h2>Invoice Details</h2>
+            
+            <div class="form-group">
+                <label for="invoiceNumber">Invoice Number:</label>
+                <input type="text" id="invoiceNumber" placeholder="INV-001">
+            </div>
+            
+            <div class="form-group">
+                <label for="invoiceDate">Invoice Date:</label>
+                <input type="date" id="invoiceDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="clientType">Client Type:</label>
+                <select id="clientType">
+                    <option value="clientA">Kriyati Consulting Private Limited (CGST + SGST)</option>
+                    <option value="clientB">Demo Indian Client (IGST + CGST)</option>
+                    <option value="clientC">Lucid Labs (No GST)</option>
+                    <option value="clientD">Tibersoft LLC (No GST)</option>
+                    <option value="clientE">Client C</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="billingType">Billing Type:</label>
+                <select id="billingType">
+                    <option value="hourly">Hourly</option>
+                    <option value="fixed">Fixed Price</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="billingPeriodGroup">
+                <label for="billingPeriod">Billing Period:</label>
+                <input type="month" id="billingPeriod">
+            </div>
+            
+            <h2>Line Items</h2>
+            <div id="lineItems">
+                <div class="line-item">
+                    <div class="form-group">
+                        <label for="description0">Description:</label>
+                        <input type="text" id="description0" placeholder="Consulting Service">
+                    </div>
+                    
+                    <div class="form-group hourly-field">
+                        <label for="hours0">Hours:</label>
+                        <input type="number" id="hours0" min="0" step="0.5" value="0">
+                    </div>
+                    
+                    <div class="form-group hourly-field">
+                        <label for="rate0">Rate (₹):</label>
+                        <input type="number" id="rate0" min="0" value="0">
+                    </div>
+                    
+                    <div class="form-group fixed-field" style="display: none;">
+                        <label for="amount0">Amount (₹):</label>
+                        <input type="number" id="amount0" min="0" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Line Total:</label>
+                        <span id="lineTotal0">₹0.00</span>
+                    </div>
+                    
+                    <button type="button" class="remove-line" onclick="removeLine(this)" disabled>Remove</button>
+                </div>
+            </div>
+            
+            <button type="button" id="addLine">Add Line Item</button>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0.00</span>
+                </div>
+                
+                <div class="summary-item tax-item" id="cgstContainer">
+                    <span>CGST (9%):</span>
+                    <span id="cgst">₹0.00</span>
+                </div>
+                
+                <div class="summary-item tax-item" id="sgstContainer">
+                    <span>SGST (9%):</span>
+                    <span id="sgst">₹0.00</span>
+                </div>
+                
+                <div class="summary-item tax-item" id="igstContainer">
+                    <span>IGST (18%):</span>
+                    <span id="igst">₹0.00</span>
+                </div>
+                
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="total">₹0.00</span>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button type="button" id="generateInvoice">Generate Invoice</button>
+            </div>
+        </div>
+        
+        <div class="invoice-preview" id="invoicePreview" style="display: none;">
+            <h2>Invoice Preview</h2>
+            <div class="invoice-content" id="invoiceContent">
+                <!-- Invoice content will be generated here -->
+            </div>
+            <button type="button" id="downloadPdf">Download as PDF</button>
+            <button type="button" id="backToForm">Back to Form</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

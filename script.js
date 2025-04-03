@@ -109,18 +109,18 @@ function addLineItem() {
         </div>
         
         <div class="form-group hourly-field" style="display: ${hourlyDisplay}">
-            <label for="rate${lineItemCount}">Rate (₹):</label>
+            <label for="rate${lineItemCount}">Rate (${lut === null ? "₹" : "$"}):</label>
             <input type="number" id="rate${lineItemCount}" min="0" value="0">
         </div>
         
         <div class="form-group fixed-field" style="display: ${fixedDisplay}">
-            <label for="amount${lineItemCount}">Amount (₹):</label>
+            <label for="amount${lineItemCount}">Amount (${lut === null ? "₹" : "$"}):</label>
             <input type="number" id="amount${lineItemCount}" min="0" value="0">
         </div>
         
         <div class="form-group">
             <label>Line Total:</label>
-            <span id="lineTotal${lineItemCount}">₹0.00</span>
+            <span id="lineTotal${lineItemCount}">${lut === null ? "₹" : "$"}0.00</span>
         </div>
         
         <button type="button" class="remove-line" onclick="removeLine(this)">Remove</button>
@@ -192,14 +192,14 @@ function calculateTotals() {
         
         const lineTotalElement = document.getElementById(`lineTotal${index}`);
         if (lineTotalElement) {
-            lineTotalElement.textContent = `₹${lineTotal.toFixed(2)}`;
+            lineTotalElement.textContent = `${lut === null ? "₹" : "$"}${lineTotal.toFixed(2)}`;
         }
         
         subtotal += lineTotal;
     }
     
     // Update subtotal
-    document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+    document.getElementById('subtotal').textContent = `${lut === null ? "₹" : "$"}${subtotal.toFixed(2)}`;
     
     // Calculate taxes
     let cgstAmount = 0;
@@ -215,13 +215,13 @@ function calculateTotals() {
     }
     
     // Update tax amounts
-    document.getElementById('cgst').textContent = `₹${cgstAmount.toFixed(2)}`;
-    document.getElementById('sgst').textContent = `₹${sgstAmount.toFixed(2)}`;
-    document.getElementById('igst').textContent = `₹${igstAmount.toFixed(2)}`;
+    document.getElementById('cgst').textContent = `${lut === null ? "₹" : "$"}${cgstAmount.toFixed(2)}`;
+    document.getElementById('sgst').textContent = `${lut === null ? "₹" : "$"}${sgstAmount.toFixed(2)}`;
+    document.getElementById('igst').textContent = `${lut === null ? "₹" : "$"}${igstAmount.toFixed(2)}`;
     
     // Calculate total
     const total = subtotal + cgstAmount + sgstAmount + igstAmount;
-    document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+    document.getElementById('total').textContent = `${lut === null ? "₹" : "$"}${total.toFixed(2)}`;
 }
 
 // Generate invoice preview
@@ -266,9 +266,9 @@ function generateInvoice() {
     }
     else if (clientType === 'clientD') {
         clientName = 'Tibersoft LLC';
-        clientAddress = 'Infinite Loop, 10000, Cupertino, CA, USA';
-        clientGST = 'GSTIN - XXXXXXXXXXXX';
-        clientState = 'State Name : XXXX, Code : XX';
+        clientAddress = 'Cultura Technologies, Inc.\n3820 Mansell Road, Suite 350 | Alpharetta, GA 30022 USA \nCell: 404-971-5536';
+        // clientGST = 'GSTIN - XXXXXXXXXXXX';
+        // clientState = 'State Name : XXXX, Code : XX';
         lut = 'AD210325007790K'
     }
     else{
@@ -367,7 +367,7 @@ function generateInvoice() {
                 
                 invoiceContent += `
                     <td>${hours}</td>
-                    <td>₹${rate.toFixed(2)}</td>
+                    <td>${lut === null ? "₹" : "$"}${rate.toFixed(2)}</td>
                 `;
             }
         } else {
@@ -378,7 +378,7 @@ function generateInvoice() {
         }
         
         invoiceContent += `
-                <td>₹${lineTotal.toFixed(2)}</td>
+                <td>${lut === null ? "₹" : "$"}${lineTotal.toFixed(2)}</td>
             </tr>
         `;
     }
@@ -389,36 +389,35 @@ function generateInvoice() {
     `;
     
     // Add totals
-    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₹', '')) || 0;
-    const cgstAmount = parseFloat(document.getElementById('cgst').textContent.replace('₹', '')) || 0;
-    const sgstAmount = parseFloat(document.getElementById('sgst').textContent.replace('₹', '')) || 0;
-    const igstAmount = parseFloat(document.getElementById('igst').textContent.replace('₹', '')) || 0;
-    const total = parseFloat(document.getElementById('total').textContent.replace('₹', '')) || 0;
+    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('${lut === null ? "₹" : "$"}', '')) || 0;
+    const cgstAmount = parseFloat(document.getElementById('cgst').textContent.replace('${lut === null ? "₹" : "$"}', '')) || 0;
+    const sgstAmount = parseFloat(document.getElementById('sgst').textContent.replace('${lut === null ? "₹" : "$"}', '')) || 0;
+    const igstAmount = parseFloat(document.getElementById('igst').textContent.replace('${lut === null ? "₹" : "$"}', '')) || 0;
+    const total = parseFloat(document.getElementById('total').textContent.replace('${lut === null ? "₹" : "$"}', '')) || 0;
     
     invoiceContent += `
         <div class="invoice-totals">
-            <div><strong>Subtotal:</strong> ₹${subtotal.toFixed(2)}</div>
+            <div><strong>Subtotal:</strong> ${lut === null ? "₹" : "$"}${subtotal.toFixed(2)}</div>
     `;
     
     // Add tax information based on client type
     if (clientType === 'clientA') {
         invoiceContent += `
-            <div><strong>CGST (9%):</strong> ₹${cgstAmount.toFixed(2)}</div>
-            <div><strong>SGST (9%):</strong> ₹${sgstAmount.toFixed(2)}</div>
+            <div><strong>CGST (9%):</strong> ${lut === null ? "₹" : "$"}${cgstAmount.toFixed(2)}</div>
+            <div><strong>SGST (9%):</strong> ${lut === null ? "₹" : "$"}${sgstAmount.toFixed(2)}</div>
         `;
     } else if (clientType === 'clientB') {
         invoiceContent += `
-            <div><strong>CGST (9%):</strong> ₹${cgstAmount.toFixed(2)}</div>
-            <div><strong>IGST (18%):</strong> ₹${igstAmount.toFixed(2)}</div>
+            <div><strong>CGST (9%):</strong> ${lut === null ? "₹" : "$"}${cgstAmount.toFixed(2)}</div>
+            <div><strong>IGST (18%):</strong> ${lut === null ? "₹" : "$"}${igstAmount.toFixed(2)}</div>
         `;
     }
     
     invoiceContent += `
-            <div class="invoice-total"><strong>Total:</strong> ₹${total.toFixed(2)}</div>
+            <div class="invoice-total"><strong>Total:</strong> ${lut === null ? "₹" : "$"}${total.toFixed(2)}</div>
         </div>
         
         <div style="margin-top: 40px;">
-            <p><strong>Payment Terms:</strong> Net 30</p>
             <div style="margin-top: 20px;">
                 <p><strong>Bank Details For Payment:</strong></p>
                 <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">

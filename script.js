@@ -242,28 +242,34 @@ function generateInvoice() {
     let clientAddress = '';
     let clientGST = '';
     let clientState = '';
+    let lut = null;
     
     if (clientType === 'clientA') {
         clientName = 'Kriyati Consulting Private Limited';
         clientAddress = 'Flat No-203, Surekha Orchid Apartment,\nSishu Vihar, Patia\nPatia, Bhubaneswar, Odisha - 751024';
         clientGST = 'GSTIN - 21AALCK1310P1ZN';
         clientState = 'State Name : Odisha, Code : 21';
+        lut = null
     } else if (clientType === 'client B') {
         clientName = 'DemoIndian Client';
         clientAddress = 'Client B Address\nCity, State, ZIP';
         clientGST = 'GSTIN - XXXXXXXXXXXX';
         clientState = 'State Name : XXXX, Code : XX';
+        lut = null
+
     } else if (clientType === 'clientC') {
         clientName = 'Lucid Labs';
         clientAddress = 'Lucid Labs Address\nCity, State, ZIP';
         clientGST = 'GSTIN - XXXXXXXXXXXX';
         clientState = 'State Name : XXXX, Code : XX';
+        lut = 'AD210325007790K'
     }
     else if (clientType === 'clientD') {
         clientName = 'Tibersoft LLC';
         clientAddress = 'Infinite Loop, 10000, Cupertino, CA, USA';
         clientGST = 'GSTIN - XXXXXXXXXXXX';
         clientState = 'State Name : XXXX, Code : XX';
+        lut = 'AD210325007790K'
     }
     else{
         clientName = 'Client C';
@@ -452,6 +458,10 @@ function generateInvoice() {
                         <td style="padding: 5px 10px; border: 1px solid #ddd;"><strong>Purpose Code:</strong></td>
                         <td style="padding: 5px 10px; border: 1px solid #ddd;">P0802</td>
                     </tr>
+                    ${lut !== null ? `<tr>
+                        <td style="padding: 5px 10px; border: 1px solid #ddd;"><strong>LUT:</strong></td>
+                        <td style="padding: 5px 10px; border: 1px solid #ddd;">${lut}</td>
+                    </tr>` : ''}
                 </table>
             </div>
             <p style="margin-top: 20px; font-weight: bold; text-align: center;">Thank You For Your Business!</p>

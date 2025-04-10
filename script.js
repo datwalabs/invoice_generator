@@ -259,9 +259,9 @@ function generateInvoice() {
 
     } else if (clientType === 'clientC') {
         clientName = 'Lucid Labs';
-        clientAddress = 'Lucid Labs Address\nCity, State, ZIP';
-        clientGST = 'GSTIN - XXXXXXXXXXXX';
-        clientState = 'State Name : XXXX, Code : XX';
+        clientAddress = 'Blk 109a Canberra walk';
+        // clientGST = 'GSTIN - XXXXXXXXXXXX';
+        // clientState = 'State Name : XXXX, Code : XX';
         lut = 'AD210325007790K'
     }
     else if (clientType === 'clientD') {

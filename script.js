@@ -233,9 +233,7 @@ function generateInvoice() {
     const billingType = document.getElementById('billingType').value;
     const billingPeriod = document.getElementById('billingPeriod').value;
     
-    // Format dates
-    const formattedInvoiceDate = formatDate(invoiceDate);
-    const formattedDueDate = formatDate(dueDate);
+    
     
     // Get client details based on selection
     let clientName = '';
@@ -277,7 +275,9 @@ function generateInvoice() {
         clientGST = 'GSTIN - XXXXXXXXXXXX';
         clientState = 'State Name : XXXX, Code : XX';
     }
-    
+    // Format dates
+    const formattedInvoiceDate = formatDate(invoiceDate,clientName);
+    const formattedDueDate = formatDate(dueDate,clientName);
     // Create invoice content
     let invoiceContent = `
         <div class="invoice-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -418,7 +418,7 @@ function generateInvoice() {
         </div>
         
         <div style="margin-top: 40px;">
-            <p><strong>Payment Terms:</strong> Net 30</p>
+            ${clientType === 'clientD' ? `<p><strong>*All amounts are in U.S. Dollars (USD)</strong></p>` : ''}
             <div style="margin-top: 20px;">
                 <p><strong>Bank Details For Payment:</strong></p>
                 <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
@@ -475,15 +475,15 @@ function generateInvoice() {
 }
 
 // Format date as DD/MM/YYYY
-function formatDate(dateString) {
+function formatDate(dateString,clientType) {
     if (!dateString) return '';
     
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
-    
-    return `${day}/${month}/${year}`;
+    console.log("clientType",clientType);
+    return clientType === 'Tibersoft LLC' ? `${month}/${day}/${year}` : `${day}/${month}/${year}`;
 }
 
 // Download invoice as PDF using browser print

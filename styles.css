@@ -214,6 +214,13 @@ button:disabled {
 
 /* Add print styles at the end of your CSS file */
 @media print {
+    @page {
+        margin-left: 0.5in;
+        margin-right: 0.5in;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
     body * {
         visibility: hidden;
     }
